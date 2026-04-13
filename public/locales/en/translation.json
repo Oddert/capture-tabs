@@ -1,0 +1,100 @@
+{
+    "applicationTitle": "PCF Dashboard",
+    "literals": {},
+    "pageTitles": {
+        "home": "Home"
+    },
+    "errors": {
+        "notFound": "Not found error"
+    },
+    "fallbackError": {
+        "title": "Something has failed with the application.",
+        "description": "The application encountered an unhandled error which it could not recover from."
+    },
+    "monthsShort": {
+        "Jan": "Jan",
+        "Feb": "Feb",
+        "Mar": "Mar",
+        "Apr": "Apr",
+        "May": "May",
+        "Jun": "Jun",
+        "Jul": "Jul",
+        "Aug": "Aug",
+        "Sep": "Sep",
+        "Oct": "Oct",
+        "Nov": "Nov",
+        "Dec": "Dec"
+    },
+    "buttons": {
+        "Cancel": "Cancel",
+        "Close": "Close",
+        "changeOrder": "Change order",
+        "checkAll": "Check all",
+        "clickToEdit": "Click to edit",
+        "closeWithoutSaving": "Close without saving changes",
+        "Delete": "Delete",
+        "deleteAll": "Delete all",
+        "unDeleteAll": "Un-delete all",
+        "Export": "Export",
+        "keepEditing": "Keep editing",
+        "newRow": "New row",
+        "Refresh": "Refresh",
+        "returnHome": "Return home",
+        "saveChanges": "Save changes",
+        "Save": "Save",
+        "Submit": "Submit",
+        "uncheckAll": "Uncheck all",
+        "viewAndEdit": "View and edit"
+    },
+    "modalTitles": {
+        "createBudgetFromTemplateTitle": "Create new budget from template.",
+        "createScenarioFromTemplateTitle": "Create new scenario from template."
+    },
+    "modalMessages": {
+        "cannotBeUndone": "This action cannot be undone.",
+        "closeWithoutSaving": "Close without saving?",
+        "createBudgetFromTemplate": "Select an existing budget to use as a starting point for your new budget.",
+        "createScenarioFromTemplate": "Select an existing scenario to use as a starting point for your new scenario.",
+        "endDateNotBeforeStart": "End date may not be before start date",
+        "noServerResponse": "No response received from the server.",
+        "sureYouWantToDeleteCategory": "Are you sure you want to delete the Category &ldquo;{{categoryName}}&rdquo;?",
+        "sureYouWantToDeleteCard": "Are you sure you want to delete the Card &ldquo;{{cardName}}&rdquo;?",
+        "sureYouWantToDeleteBudget": "Are you sure you want to delete the budget &ldquo;{{budgetName}}&rdquo;?",
+        "sureYouWantToDeleteScenario": "Are you sure you want to delete the scenario &ldquo;{{scenarioName}}&rdquo;?",
+        "unsavedChangesWillBeLost": "You have unsaved changes that will be lost."
+    },
+    "zoom": {
+        "xs": "xs",
+        "sm": "sm",
+        "md": "md",
+        "lg": "lg",
+        "xl": "xl"
+    },
+    "auth": {
+        "changeEmail": "Change email",
+        "changeEmailTitle": "Change your login and recovery email",
+        "changePassword": "Change password",
+        "changePasswordTitle": "Change your password",
+        "confirmPassword": "Confirm Password",
+        "confirmNewPassword": "Confirm Password",
+        "Email": "Email",
+        "emailFormatInvalid": "The email submitted is not a valid format.",
+        "emailMustBeXLong": "Email must be a minimum of 4 characters long.",
+        "incorrectEmailPassword": "Incorrect email or password, please check and try again.",
+        "Login": "Login",
+        "newEmailLabel": "New email",
+        "newPassword": "New password",
+        "oldPassword": "Old password",
+        "Password": "Password",
+        "passwordsDontMatch": "Passwords do not match.",
+        "passwordsMustBeXLong": "Passwords must be a minimum of 8 characters long.",
+        "passwordsMustHaveOneNumber": "Passwords must have at least one number character.",
+        "passwordsShouldNoMatch": "The new password cannot be the same as the old password.",
+        "Security": "Security",
+        "signInCTA": "Already have an account?",
+        "signUp": "Sign Up",
+        "signUpCTA": "Don't yet have an account?",
+        "Username": "Username",
+        "usernameTaken": "This email address if already in use"
+    }
+}

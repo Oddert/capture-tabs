@@ -1,0 +1,24 @@
+{
+    "plugin": ["stylelint-scss"],
+    "extends": [
+        "stylelint-config-recommended",
+        "stylelint-config-recommended-scss"
+    ],
+    "rules": {
+        "selector-type-no-unknown": [
+            true,
+            {
+                "ignore": [
+                    "custom-elements",
+                    "default-namespace"
+                ]
+            }
+        ],
+        "selector-pseudo-class-no-unknown": [
+            true,
+            {
+                "ignorePseudoClass": ["global"]
+            }
+        ]
+    }
+}
