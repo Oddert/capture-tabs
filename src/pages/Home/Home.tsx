@@ -1,9 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import { Fragment } from 'react/jsx-runtime';
 
 import UploadFileContents from '../../components/UploadFileContents';
 import UploadText from '../../components/UploadText';
+import ResponsiveContainer from '../../hocs/ResponsiveContainer';
 import { useAppSelector } from '../../hooks/ReduxHookWrappers';
 import { getIsUploaded } from '../../redux/selectors/uploadSelectors';
 
@@ -18,16 +19,7 @@ import { getIsUploaded } from '../../redux/selectors/uploadSelectors';
 const Home = () => {
     const isLoaded = useAppSelector(getIsUploaded);
     return (
-        <Box
-            sx={{
-                height: '200vh',
-                gridGap: '20px',
-                // border: '1px dashed tomato',
-                width: '100%',
-                mx: 'auto',
-                // gridAutoRows: '400px',
-            }}
-        >
+        <ResponsiveContainer>
             {isLoaded ? null : (
                 <Fragment>
                     <UploadFileContents />
@@ -37,7 +29,7 @@ const Home = () => {
                     <UploadText />
                 </Fragment>
             )}
-        </Box>
+        </ResponsiveContainer>
     );
 };
 
