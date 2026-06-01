@@ -48,3 +48,13 @@ export const getUploadErrors = createSelector(
     getUploadState,
     (upload) => upload.errors,
 );
+
+/**
+ * Returns the upload raw content.
+ * @category Redux
+ * @subcategory Selectors
+ */
+export const getUploadRawContent = createSelector(
+    getUploadState,
+    (upload) => upload.raw,
+);
