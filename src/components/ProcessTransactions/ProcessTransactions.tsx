@@ -21,14 +21,15 @@ import {
     actionDefaultNextItem,
     decrementCursor,
 } from '../../redux/thunks/uploadThunks';
+import { convertToCSVAndDownload } from '../../utils/exportUtils';
 import ModalBookmark from '../ModalBookmark';
 import ModalNextActionText from '../ModalNextActionText';
 
 import URLItem from './components/URLItem/URLItem';
 
 const ProcessTransactions: FC<IProps> = () => {
-    const [nextActionOpen, setNextActionOpen] = useState(false);
     const [bookmarkOpen, setBookmarkOpen] = useState(false);
+    const [nextActionOpen, setNextActionOpen] = useState(false);
 
     const items = useAppSelector(getUploadItems);
     const cursor = useAppSelector(getUploadCursor);
@@ -43,11 +44,13 @@ const ProcessTransactions: FC<IProps> = () => {
 
     const handleClickUpload = () => {};
 
-    const handleClickEdit = () => {
+    const handleClickEdit = useCallback(() => {
         dispatch(toggleEditMode({ editMode: true }));
-    };
+    }, [dispatch]);
 
-    const handleClickSave = () => {};
+    const handleClickSave = useCallback(() => {
+        convertToCSVAndDownload(items);
+    }, [items]);
 
     const handleClickNext = useCallback(() => {
         dispatch(actionDefaultNextItem());
@@ -59,6 +62,9 @@ const ProcessTransactions: FC<IProps> = () => {
 
     const handleKeyDown = useCallback(
         (event: KeyboardEvent) => {
+            if (bookmarkOpen || nextActionOpen) {
+                return;
+            }
             // eslint-disable-next-line no-console
             console.log(event.key);
             if (event.key === 'ArrowDown') {
@@ -73,9 +79,22 @@ const ProcessTransactions: FC<IProps> = () => {
             } else if (event.key === 'ArrowRight') {
                 event.preventDefault();
                 setBookmarkOpen(true);
+            } else if (event.key === 'e') {
+                event.preventDefault();
+                handleClickEdit();
+            } else if (event.key === 's') {
+                event.preventDefault();
+                handleClickSave();
             }
         },
-        [handleClickNext, handleClickPrev],
+        [
+            bookmarkOpen,
+            handleClickEdit,
+            handleClickNext,
+            handleClickPrev,
+            handleClickSave,
+            nextActionOpen,
+        ],
     );
 
     useEffect(() => {
@@ -135,7 +154,7 @@ const ProcessTransactions: FC<IProps> = () => {
                 <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
                     <Button
                         onClick={() => {
-                            // setNextActionOpen(true);
+                            setBookmarkOpen(true);
                         }}
                         endIcon={<IconRight />}
                         variant='outlined'
@@ -179,7 +198,7 @@ const ProcessTransactions: FC<IProps> = () => {
                 <Button onClick={handleClickEdit} variant='outlined'>
                     (E) Edit loaded items
                 </Button>
-                <Button disabled onClick={handleClickSave} variant='outlined'>
+                <Button onClick={handleClickSave} variant='outlined'>
                     (S) Save Reports
                 </Button>
             </Box>
