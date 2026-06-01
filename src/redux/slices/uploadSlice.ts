@@ -17,6 +17,7 @@ export interface IUploadState {
         nextAction: number;
         total: number;
     };
+    cursor: number;
     editMode: boolean;
     errors: IUploadError[];
     items: IUploadItem[];
@@ -32,6 +33,7 @@ const initialState: IUploadState = {
         nextAction: 0,
         total: 0,
     },
+    cursor: 0,
     editMode: false,
     errors: [],
     items: [],
@@ -43,6 +45,34 @@ export const uploadSlice = createSlice({
     name: 'upload',
     initialState,
     reducers: {
+        actionItem(
+            state,
+            action: PayloadAction<{
+                decisionType: IUploadItem['decisionType'];
+                index: number;
+                url: string;
+            }>,
+        ) {
+            if (state.items[action.payload.index].decisionType === null) {
+                state.counts.done += 1;
+                switch (action.payload.decisionType) {
+                    case 'discard':
+                        state.counts.discard += 1;
+                        break;
+                    case 'bookmark':
+                        state.counts.bookmark += 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            state.items[action.payload.index].decisionType =
+                action.payload.decisionType;
+            state.cursor = state.cursor + 1;
+        },
+        setCursor(state, action: PayloadAction<{ cursor: number }>) {
+            state.cursor = action.payload.cursor;
+        },
         toggleEditMode(state, action: PayloadAction<{ editMode?: boolean }>) {
             state.editMode = Boolean(action.payload.editMode);
         },
@@ -66,6 +96,7 @@ export const uploadSlice = createSlice({
     },
 });
 
-export const { toggleEditMode, uploadContent } = uploadSlice.actions;
+export const { actionItem, setCursor, toggleEditMode, uploadContent } =
+    uploadSlice.actions;
 
 export default uploadSlice.reducer;

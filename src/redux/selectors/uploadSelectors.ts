@@ -68,3 +68,13 @@ export const getUploadRawContent = createSelector(
     getUploadState,
     (upload) => upload.raw,
 );
+
+/**
+ * Returns the upload cursor.
+ * @category Redux
+ * @subcategory Selectors
+ */
+export const getUploadCursor = createSelector(
+    getUploadState,
+    (upload) => upload.cursor,
+);

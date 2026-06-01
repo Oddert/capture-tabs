@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import { Fragment } from 'react/jsx-runtime';
 
 import FileIndicator from '../../components/FileIndicator';
+import ProcessTransactions from '../../components/ProcessTransactions';
 import UploadFileContents from '../../components/UploadFileContents';
 import UploadText from '../../components/UploadText';
 import ResponsiveContainer from '../../hocs/ResponsiveContainer';
@@ -35,7 +36,9 @@ const Home = () => {
                         </Typography>
                         <UploadText />
                     </Fragment>
-                ) : null}
+                ) : (
+                    <ProcessTransactions />
+                )}
             </Fragment>
         </ResponsiveContainer>
     );
