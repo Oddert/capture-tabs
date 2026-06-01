@@ -1,5 +1,8 @@
+import type { IBookmarkItem } from '../../types/Bookmarks.types';
 import type { AppDispatch, RootState } from '../constants/store';
 
+import { createAndStoreBookmarks } from '../../utils/bookmarkUtils';
+import { loadBookmarks, pushLastBookmark } from '../slices/bookmarksSlice';
 import { actionItem, setCursor } from '../slices/uploadSlice';
 
 import { intakeError } from './errorThunks';
@@ -80,6 +83,66 @@ export const actionCreateNextAction =
                     reason: text,
                 }),
             );
+        } catch (error) {
+            dispatch(intakeError(error));
+        }
+    };
+
+export const actionBookmark =
+    (bookmark: string | IBookmarkItem, wasAQuickdial?: boolean) =>
+    async (dispatch: AppDispatch, getState: () => RootState) => {
+        try {
+            const state = getState();
+            const { bookmarks } = state.bookmarks;
+            const { cursor, items } = state.upload;
+
+            if (typeof bookmark === 'string') {
+                const [nextBookmarks, createdBookmarks] =
+                    createAndStoreBookmarks(bookmarks, [bookmark]);
+                dispatch(loadBookmarks({ bookmarks: nextBookmarks }));
+                dispatch(
+                    actionItem({
+                        bookmark: createdBookmarks[0],
+                        decisionType: 'bookmark',
+                        index: cursor,
+                        url: items[cursor].url,
+                    }),
+                );
+                dispatch(pushLastBookmark({ bookmark: createdBookmarks[0] }));
+            } else {
+                const foundBm = bookmarks.find((bm) => bm.id === bookmark.id);
+                if (foundBm) {
+                    dispatch(
+                        actionItem({
+                            bookmark: foundBm,
+                            decisionType: 'bookmark',
+                            index: cursor,
+                            url: items[cursor].url,
+                        }),
+                    );
+                    if (!wasAQuickdial) {
+                        dispatch(pushLastBookmark({ bookmark: foundBm }));
+                    }
+                }
+            }
+        } catch (error) {
+            dispatch(intakeError(error));
+        }
+    };
+
+export const actionBookmarkQuickDial =
+    (index: string | number) =>
+    async (dispatch: AppDispatch, getState: () => RootState) => {
+        try {
+            const indexParsed = Number(index);
+            const { recent } = getState().bookmarks;
+
+            const foundBm = recent[indexParsed];
+
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            if (foundBm) {
+                dispatch(actionBookmark(foundBm, true));
+            }
         } catch (error) {
             dispatch(intakeError(error));
         }

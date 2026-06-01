@@ -15,21 +15,38 @@ import {
     getUploadCursor,
     getUploadItems,
 } from '../../redux/selectors/uploadSelectors';
+import { toggleEditMode } from '../../redux/slices/uploadSlice';
 import {
     actionDefaultNextItem,
     decrementCursor,
 } from '../../redux/thunks/uploadThunks';
+import ModalBookmark from '../ModalBookmark';
 import ModalNextActionText from '../ModalNextActionText';
 
 import URLItem from './components/URLItem/URLItem';
 
 const ProcessTransactions: FC<IProps> = () => {
     const [nextActionOpen, setNextActionOpen] = useState(false);
+    const [bookmarkOpen, setBookmarkOpen] = useState(false);
 
     const items = useAppSelector(getUploadItems);
     const cursor = useAppSelector(getUploadCursor);
 
     const dispatch = useAppDispatch();
+
+    const handleClickOpen = () => {};
+
+    const handleClickReview = () => {};
+
+    const handleClickClear = () => {};
+
+    const handleClickUpload = () => {};
+
+    const handleClickEdit = () => {
+        dispatch(toggleEditMode({ editMode: true }));
+    };
+
+    const handleClickSave = () => {};
 
     const handleClickNext = useCallback(() => {
         dispatch(actionDefaultNextItem());
@@ -52,6 +69,9 @@ const ProcessTransactions: FC<IProps> = () => {
             } else if (event.key === 'ArrowLeft') {
                 event.preventDefault();
                 setNextActionOpen(true);
+            } else if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                setBookmarkOpen(true);
             }
         },
         [handleClickNext, handleClickPrev],
@@ -129,11 +149,46 @@ const ProcessTransactions: FC<IProps> = () => {
                     Next (discard)
                 </Button>
             </Box>
+            <Box
+                sx={(theme) => ({
+                    backgroundColor: theme.palette.background.default,
+                    position: 'sticky',
+                    bottom: '20px',
+                    display: 'flex',
+                    gap: '8px',
+                    width: '100%',
+                })}
+            >
+                <Button disabled onClick={handleClickOpen} variant='outlined'>
+                    (O) Open
+                </Button>
+                <Button disabled onClick={handleClickReview} variant='outlined'>
+                    (R) Review
+                </Button>
+                <Button disabled onClick={handleClickClear} variant='outlined'>
+                    (C) Clear all
+                </Button>
+                <Button disabled onClick={handleClickUpload} variant='outlined'>
+                    (U) Upload
+                </Button>
+                <Button onClick={handleClickEdit} variant='outlined'>
+                    (E) Edit loaded items
+                </Button>
+                <Button disabled onClick={handleClickSave} variant='outlined'>
+                    (S) Save Reports
+                </Button>
+            </Box>
             <ModalNextActionText
                 onClose={() => {
                     setNextActionOpen(false);
                 }}
                 open={nextActionOpen}
+            />
+            <ModalBookmark
+                onClose={() => {
+                    setBookmarkOpen(false);
+                }}
+                open={bookmarkOpen}
             />
         </Box>
     );

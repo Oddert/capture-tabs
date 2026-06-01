@@ -50,6 +50,7 @@ export const uploadSlice = createSlice({
             {
                 payload,
             }: PayloadAction<{
+                bookmark?: IUploadItem['bookmark'];
                 decisionType: IUploadItem['decisionType'];
                 index: number;
                 url: string;
@@ -85,6 +86,9 @@ export const uploadSlice = createSlice({
                     break;
                 default:
                     break;
+            }
+            if (payload.bookmark) {
+                state.items[payload.index].bookmark = payload.bookmark;
             }
             if (payload.reason) {
                 state.items[payload.index].reason = payload.reason;
