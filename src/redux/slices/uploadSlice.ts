@@ -71,7 +71,9 @@ export const uploadSlice = createSlice({
             state.cursor = state.cursor + 1;
         },
         setCursor(state, action: PayloadAction<{ cursor: number }>) {
-            state.cursor = action.payload.cursor;
+            if (action.payload.cursor >= 0 && action.payload.cursor <= state.items.length -1) {
+                state.cursor = action.payload.cursor;
+            }
         },
         toggleEditMode(state, action: PayloadAction<{ editMode?: boolean }>) {
             state.editMode = Boolean(action.payload.editMode);
