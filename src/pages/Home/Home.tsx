@@ -1,8 +1,11 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
+import { Fragment } from 'react/jsx-runtime';
+
+import UploadFileContents from '../../components/UploadFileContents';
+import UploadText from '../../components/UploadText';
 import { useAppSelector } from '../../hooks/ReduxHookWrappers';
 import { getIsUploaded } from '../../redux/selectors/uploadSelectors';
-import UploadFileContents from '../../components/UploadFileContents';
 
 /**
  * Main home page component.
@@ -25,7 +28,15 @@ const Home = () => {
                 // gridAutoRows: '400px',
             }}
         >
-            {isLoaded ? null : <UploadFileContents />}
+            {isLoaded ? null : (
+                <Fragment>
+                    <UploadFileContents />
+                    <Typography sx={{ mb: 2, textAlign: 'center' }}>
+                        Or
+                    </Typography>
+                    <UploadText />
+                </Fragment>
+            )}
         </Box>
     );
 };

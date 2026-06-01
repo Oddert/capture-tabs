@@ -1,5 +1,6 @@
-import { type FC,  } from 'react';
+import { type FC } from 'react';
 
+import { Box } from '@mui/material';
 
 import type { IProps } from './UploadFileContents.types';
 
@@ -9,7 +10,7 @@ import DropZone from '../DropZone/DropZone';
 
 /**
  * Presents a drag-drop file upload for the URL files.
- * 
+ *
  * Writes the file to state on change.
  * @component
  * @category Components
@@ -29,7 +30,9 @@ const UploadFileContents: FC<IProps> = () => {
     };
 
     return (
-        <DropZone onChange={handleUpload} />
+        <Box sx={{ mb: 2 }}>
+            <DropZone onChange={handleUpload} />
+        </Box>
     );
 };
 
