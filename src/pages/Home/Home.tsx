@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 
-import DropZone from '../../components/DropZone/DropZone';
 import { useAppSelector } from '../../hooks/ReduxHookWrappers';
 import { getIsUploaded } from '../../redux/selectors/uploadSelectors';
+import UploadFileContents from '../../components/UploadFileContents';
 
 /**
  * Main home page component.
@@ -25,7 +25,7 @@ const Home = () => {
                 // gridAutoRows: '400px',
             }}
         >
-            {isLoaded ? null : <DropZone />}
+            {isLoaded ? null : <UploadFileContents />}
         </Box>
     );
 };

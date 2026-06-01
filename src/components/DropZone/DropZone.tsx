@@ -5,28 +5,17 @@ import { Button, Typography } from '@mui/material';
 
 import type { IProps } from './DropZone.types';
 
-import { useAppDispatch } from '../../hooks/ReduxHookWrappers';
-import { uploadContent } from '../../redux/slices/uploadSlice';
-
 /**
  * Component for handling file uploads via drag-and-drop or file selection.
  * @component
  * @category Components
  * @subcategory DropZone
  */
-const DropZone: FC<IProps> = () => {
+const DropZone: FC<IProps> = ({label = 'Click to upload or drop your file here', onChange}) => {
     const [highlight, setHighlight] = useState(false);
 
-    const dispatch = useAppDispatch();
-
     const handleUpload = (files: FileList) => {
-        const getFiles = async () => {
-            const fileContents = await Promise.all(
-                Array.from(files).map((file) => file.text()),
-            );
-            dispatch(uploadContent({ content: fileContents.join('\n') }));
-        };
-        getFiles();
+        onChange(files);
     };
 
     return (
@@ -68,7 +57,7 @@ const DropZone: FC<IProps> = () => {
             })}
         >
             <IconUpload fontSize='large' />
-            <Typography>Click to upload or drop your file here</Typography>
+            <Typography>{label}</Typography>
             <input
                 accept='.txt,.md'
                 hidden
