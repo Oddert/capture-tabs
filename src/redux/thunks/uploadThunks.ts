@@ -2,6 +2,7 @@ import type { IBookmarkItem } from '../../types/Bookmarks.types';
 import type { AppDispatch, RootState } from '../constants/store';
 
 import { createAndStoreBookmarks } from '../../utils/bookmarkUtils';
+import { openLinkInNewTab } from '../../utils/uploadUtils';
 import { loadBookmarks, pushLastBookmark } from '../slices/bookmarksSlice';
 import { actionItem, setCursor } from '../slices/uploadSlice';
 
@@ -149,6 +150,19 @@ export const actionBookmarkQuickDial =
             if (foundBm) {
                 dispatch(actionBookmark(foundBm, undefined, true));
             }
+        } catch (error) {
+            dispatch(intakeError(error));
+        }
+    };
+
+export const previewLinkNewTab =
+    () => async (dispatch: AppDispatch, getState: () => RootState) => {
+        try {
+            const { items, cursor } = getState().upload;
+
+            const item = items[cursor];
+
+            openLinkInNewTab(item.url);
         } catch (error) {
             dispatch(intakeError(error));
         }

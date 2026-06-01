@@ -37,3 +37,15 @@ export const parseUploadContent = (content: string) => {
         );
     return { items, errors };
 };
+
+/**
+ * Opens a URL in a new tab.
+ * @param URL The URL to open.
+ */
+export const openLinkInNewTab = (url: string) => {
+    const aTag = document.createElement('a');
+    aTag.href = url;
+    aTag.target = '_blank';
+    aTag.click();
+    aTag.remove();
+};

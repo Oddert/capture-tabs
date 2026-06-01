@@ -20,6 +20,7 @@ import { refreshBookmarksFromLocalStore } from '../../redux/thunks/bookmarksThun
 import {
     actionDefaultNextItem,
     decrementCursor,
+    previewLinkNewTab,
 } from '../../redux/thunks/uploadThunks';
 import { convertToCSVAndDownload } from '../../utils/exportUtils';
 import ModalBookmark from '../ModalBookmark';
@@ -36,13 +37,13 @@ const ProcessTransactions: FC<IProps> = () => {
 
     const dispatch = useAppDispatch();
 
-    const handleClickOpen = () => {};
+    const handleClickOpen = useCallback(() => {
+        dispatch(previewLinkNewTab());
+    }, [dispatch]);
 
     const handleClickReview = () => {};
 
     const handleClickClear = () => {};
-
-    const handleClickUpload = () => {};
 
     const handleClickEdit = useCallback(() => {
         dispatch(toggleEditMode({ editMode: true }));
@@ -82,6 +83,9 @@ const ProcessTransactions: FC<IProps> = () => {
             } else if (event.key === 'e') {
                 event.preventDefault();
                 handleClickEdit();
+            } else if (event.key === 'o') {
+                event.preventDefault();
+                handleClickOpen();
             } else if (event.key === 's') {
                 event.preventDefault();
                 handleClickSave();
@@ -91,6 +95,7 @@ const ProcessTransactions: FC<IProps> = () => {
             bookmarkOpen,
             handleClickEdit,
             handleClickNext,
+            handleClickOpen,
             handleClickPrev,
             handleClickSave,
             nextActionOpen,
@@ -183,7 +188,7 @@ const ProcessTransactions: FC<IProps> = () => {
                     width: '100%',
                 })}
             >
-                <Button disabled onClick={handleClickOpen} variant='outlined'>
+                <Button onClick={handleClickOpen} variant='outlined'>
                     (O) Open
                 </Button>
                 <Button disabled onClick={handleClickReview} variant='outlined'>
@@ -191,9 +196,6 @@ const ProcessTransactions: FC<IProps> = () => {
                 </Button>
                 <Button disabled onClick={handleClickClear} variant='outlined'>
                     (C) Clear all
-                </Button>
-                <Button disabled onClick={handleClickUpload} variant='outlined'>
-                    (U) Upload
                 </Button>
                 <Button onClick={handleClickEdit} variant='outlined'>
                     (E) Edit loaded items
