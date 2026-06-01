@@ -1,4 +1,4 @@
 export interface IProps {
     label?: string;
-    onChange: (files: FileList) => void
+    onChange: (files: FileList) => void;
 }

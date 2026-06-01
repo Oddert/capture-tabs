@@ -11,7 +11,10 @@ import type { IProps } from './DropZone.types';
  * @category Components
  * @subcategory DropZone
  */
-const DropZone: FC<IProps> = ({label = 'Click to upload or drop your file here', onChange}) => {
+const DropZone: FC<IProps> = ({
+    label = 'Click to upload or drop your file here',
+    onChange,
+}) => {
     const [highlight, setHighlight] = useState(false);
 
     const handleUpload = (files: FileList) => {
@@ -28,11 +31,16 @@ const DropZone: FC<IProps> = ({label = 'Click to upload or drop your file here',
             onDragLeave={() => {
                 setHighlight(false);
             }}
-            onDrop={(e) => {
-                e.preventDefault();
+            onDragOver={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+            }}
+            onDrop={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
                 setHighlight(false);
-                if (e.dataTransfer.files.length > 0) {
-                    handleUpload(e.dataTransfer.files);
+                if (event.dataTransfer.files.length > 0) {
+                    handleUpload(event.dataTransfer.files);
                 }
             }}
             sx={(theme) => ({
