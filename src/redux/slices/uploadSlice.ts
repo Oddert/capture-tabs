@@ -11,8 +11,10 @@ import { parseUploadContent } from '../../utils/uploadUtils';
  */
 export interface IUploadState {
     counts: {
+        bookmark: number;
         discard: number;
         done: number;
+        nextAction: number;
         total: number;
     };
     errors: IUploadError[];
@@ -23,8 +25,10 @@ export interface IUploadState {
 
 const initialState: IUploadState = {
     counts: {
+        bookmark: 0,
         discard: 0,
         done: 0,
+        nextAction: 0,
         total: 0,
     },
     errors: [],
@@ -42,8 +46,10 @@ export const uploadSlice = createSlice({
                 action.payload.content,
             );
             state.counts = {
+                bookmark: 0,
                 discard: 0,
                 done: 0,
+                nextAction: 0,
                 total: items.length,
             };
             state.errors = errors;
