@@ -1,4 +1,4 @@
-import { type FC, useCallback, useEffect } from 'react';
+import { type FC, useCallback, useEffect, useState } from 'react';
 
 import {
     ArrowDownward as IconDown,
@@ -17,10 +17,13 @@ import {
     actionDefaultNextItem,
     decrementCursor,
 } from '../../redux/thunks/uploadThunks';
+import ModalNextActionText from '../ModalNextActionText';
 
 import URLItem from './components/URLItem/URLItem';
 
 const ProcessTransactions: FC<IProps> = () => {
+    const [nextActionOpen, setNextActionOpen] = useState(false);
+
     const items = useAppSelector(getUploadItems);
     const cursor = useAppSelector(getUploadCursor);
 
@@ -42,6 +45,9 @@ const ProcessTransactions: FC<IProps> = () => {
             } else if (event.key === 'ArrowUp') {
                 event.preventDefault();
                 handleClickPrev();
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                setNextActionOpen(true);
             }
         },
         [handleClickNext, handleClickPrev],
@@ -95,6 +101,12 @@ const ProcessTransactions: FC<IProps> = () => {
                     Next (discard)
                 </Button>
             </Box>
+            <ModalNextActionText
+                onClose={() => {
+                    setNextActionOpen(false);
+                }}
+                open={nextActionOpen}
+            />
         </Box>
     );
 };

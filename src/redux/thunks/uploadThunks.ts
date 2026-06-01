@@ -66,3 +66,21 @@ export const actionDefaultNextItem =
             dispatch(intakeError(error));
         }
     };
+
+export const actionCreateNextAction =
+    (text?: string) =>
+    async (dispatch: AppDispatch, getState: () => RootState) => {
+        try {
+            const { cursor, items } = getState().upload;
+            dispatch(
+                actionItem({
+                    decisionType: 'export',
+                    index: cursor,
+                    url: items[cursor].url,
+                    reason: text,
+                }),
+            );
+        } catch (error) {
+            dispatch(intakeError(error));
+        }
+    };

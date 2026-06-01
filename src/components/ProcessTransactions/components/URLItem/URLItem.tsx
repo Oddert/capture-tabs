@@ -1,9 +1,10 @@
-import type { FC } from 'react';
+import { type FC, Fragment } from 'react';
 
 import {
     Bookmark as IconBookmark,
     CheckCircle as IconDone,
     HighlightOff as IconDelete,
+    Notes as IconNote,
 } from '@mui/icons-material';
 import { Paper, Tooltip, Typography } from '@mui/material';
 
@@ -17,7 +18,10 @@ import { getUploadItems } from '../../../../redux/selectors/uploadSelectors';
  * Returns the appropriate status badge based on the decision type.
  * @param decisionType The decision type of the upload item, which can be 'discard', 'bookmark', 'export', or undefined.
  */
-const getStatusBadge = (decisionType: IUploadItem['decisionType']) => {
+const getStatusBadge = (
+    decisionType: IUploadItem['decisionType'],
+    reason: IUploadItem['reason'],
+) => {
     switch (decisionType) {
         case 'discard':
             return (
@@ -34,7 +38,12 @@ const getStatusBadge = (decisionType: IUploadItem['decisionType']) => {
         case 'export':
             return (
                 <Tooltip title={'next action created'}>
-                    <IconDone color='success' sx={{ ml: 0.5 }} />
+                    <Fragment>
+                        <IconDone color='success' sx={{ ml: 0.5 }} />
+                        {reason?.length ? (
+                            <IconNote color='info' sx={{ ml: 0.5 }} />
+                        ) : null}
+                    </Fragment>
                 </Tooltip>
             );
         default:
@@ -60,7 +69,7 @@ const URLItem: FC<IProps> = ({ focused, index }) => {
                 opacity: focused ? 1 : 0.5,
             }}
         >
-            {getStatusBadge(items[index].decisionType)}
+            {getStatusBadge(items[index].decisionType, items[index].reason)}
             <Typography
                 sx={{
                     ml: 2,

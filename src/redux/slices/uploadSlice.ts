@@ -47,31 +47,56 @@ export const uploadSlice = createSlice({
     reducers: {
         actionItem(
             state,
-            action: PayloadAction<{
+            {
+                payload,
+            }: PayloadAction<{
                 decisionType: IUploadItem['decisionType'];
                 index: number;
                 url: string;
+                reason?: IUploadItem['reason'];
             }>,
         ) {
-            if (state.items[action.payload.index].decisionType === null) {
-                state.counts.done += 1;
-                switch (action.payload.decisionType) {
+            if (state.items[payload.index].decisionType !== null) {
+                state.counts.done -= 1;
+                switch (state.items[payload.index].decisionType) {
                     case 'discard':
-                        state.counts.discard += 1;
+                        state.counts.discard -= 1;
                         break;
                     case 'bookmark':
-                        state.counts.bookmark += 1;
+                        state.counts.bookmark -= 1;
+                        break;
+                    case 'export':
+                        state.counts.nextAction -= 1;
                         break;
                     default:
                         break;
                 }
             }
-            state.items[action.payload.index].decisionType =
-                action.payload.decisionType;
+            state.counts.done += 1;
+            switch (payload.decisionType) {
+                case 'discard':
+                    state.counts.discard += 1;
+                    break;
+                case 'bookmark':
+                    state.counts.bookmark += 1;
+                    break;
+                case 'export':
+                    state.counts.nextAction += 1;
+                    break;
+                default:
+                    break;
+            }
+            if (payload.reason) {
+                state.items[payload.index].reason = payload.reason;
+            }
+            state.items[payload.index].decisionType = payload.decisionType;
             state.cursor = state.cursor + 1;
         },
         setCursor(state, action: PayloadAction<{ cursor: number }>) {
-            if (action.payload.cursor >= 0 && action.payload.cursor <= state.items.length -1) {
+            if (
+                action.payload.cursor >= 0 &&
+                action.payload.cursor <= state.items.length - 1
+            ) {
                 state.cursor = action.payload.cursor;
             }
         },

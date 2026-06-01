@@ -1,7 +1,8 @@
 export interface IUploadItem {
+    decisionType: 'discard' | 'export' | 'bookmark' | null;
     original: string;
     url: string;
-    decisionType: 'discard' | 'export' | 'bookmark' | null;
+    reason?: string;
 }
 
 export interface IUploadError {
