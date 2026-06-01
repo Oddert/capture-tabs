@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, Fragment } from 'react';
 
 import {
     Bookmark as IconBookmark,
@@ -17,7 +17,10 @@ import {
 import type { IProps } from './FileIndicator.types';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/ReduxHookWrappers';
-import { getUploadCounts } from '../../redux/selectors/uploadSelectors';
+import {
+    getUploadCounts,
+    getUploadCursor,
+} from '../../redux/selectors/uploadSelectors';
 import { toggleEditMode } from '../../redux/slices/uploadSlice';
 
 /**
@@ -28,6 +31,7 @@ import { toggleEditMode } from '../../redux/slices/uploadSlice';
  */
 const FileIndicator: FC<IProps> = () => {
     const count = useAppSelector(getUploadCounts);
+    const cursor = useAppSelector(getUploadCursor);
 
     const dispatch = useAppDispatch();
 
@@ -36,57 +40,64 @@ const FileIndicator: FC<IProps> = () => {
     };
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-            <Button
-                endIcon={<IconEdit />}
-                onClick={handleClickEdit}
-                title='click to edit URLs'
-                variant='outlined'
+        <Fragment>
+            <Box
+                sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}
             >
-                {count.total} loaded
-            </Button>
-            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                <Tooltip
-                    title={`${String(count.done)} of ${String(count.total)} completed`}
+                <Button
+                    endIcon={<IconEdit />}
+                    onClick={handleClickEdit}
+                    title='click to edit URLs'
+                    variant='outlined'
                 >
-                    <CircularProgress
-                        thickness={4}
-                        size={20}
-                        value={(count.done / count.total) * 100}
-                        variant='determinate'
-                    />
-                </Tooltip>
-                <Tooltip
-                    title={`${String(count.nextAction)} next actions captured`}
-                >
-                    <Typography
-                        variant='body2'
-                        sx={{ display: 'flex', alignItems: 'center' }}
+                    {count.total} loaded
+                </Button>
+                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                    <Tooltip
+                        title={`${String(count.done)} of ${String(count.total)} completed`}
                     >
-                        {count.nextAction}
-                        <IconDone color='success' sx={{ ml: 0.5 }} />
-                    </Typography>
-                </Tooltip>
-                <Tooltip title={`${String(count.discard)} discarded`}>
-                    <Typography
-                        variant='body2'
-                        sx={{ display: 'flex', alignItems: 'center' }}
+                        <CircularProgress
+                            thickness={4}
+                            size={20}
+                            value={(count.done / count.total) * 100}
+                            variant='determinate'
+                        />
+                    </Tooltip>
+                    <Tooltip
+                        title={`${String(count.nextAction)} next actions captured`}
                     >
-                        {count.discard}
-                        <IconDelete color='error' sx={{ ml: 0.5 }} />
-                    </Typography>
-                </Tooltip>
-                <Tooltip title={`${String(count.bookmark)} bookmarked`}>
-                    <Typography
-                        variant='body2'
-                        sx={{ display: 'flex', alignItems: 'center' }}
-                    >
-                        {count.bookmark}
-                        <IconBookmark color='primary' sx={{ ml: 0.5 }} />
-                    </Typography>
-                </Tooltip>
+                        <Typography
+                            variant='body2'
+                            sx={{ display: 'flex', alignItems: 'center' }}
+                        >
+                            {count.nextAction}
+                            <IconDone color='success' sx={{ ml: 0.5 }} />
+                        </Typography>
+                    </Tooltip>
+                    <Tooltip title={`${String(count.discard)} discarded`}>
+                        <Typography
+                            variant='body2'
+                            sx={{ display: 'flex', alignItems: 'center' }}
+                        >
+                            {count.discard}
+                            <IconDelete color='error' sx={{ ml: 0.5 }} />
+                        </Typography>
+                    </Tooltip>
+                    <Tooltip title={`${String(count.bookmark)} bookmarked`}>
+                        <Typography
+                            variant='body2'
+                            sx={{ display: 'flex', alignItems: 'center' }}
+                        >
+                            {count.bookmark}
+                            <IconBookmark color='primary' sx={{ ml: 0.5 }} />
+                        </Typography>
+                    </Tooltip>
+                </Box>
             </Box>
-        </Box>
+            <Typography>
+                {cursor} of {count.total}
+            </Typography>
+        </Fragment>
     );
 };
 

@@ -1,6 +1,10 @@
 import { type FC, useCallback, useEffect } from 'react';
 
-import { Box, Typography } from '@mui/material';
+import {
+    ArrowDownward as IconDown,
+    ArrowUpward as IconUp,
+} from '@mui/icons-material';
+import { Box, Button } from '@mui/material';
 
 import type { IProps } from './ProcessTransactions.types';
 
@@ -13,6 +17,8 @@ import {
     actionDefaultNextItem,
     decrementCursor,
 } from '../../redux/thunks/uploadThunks';
+
+import URLItem from './components/URLItem/URLItem';
 
 const ProcessTransactions: FC<IProps> = () => {
     const items = useAppSelector(getUploadItems);
@@ -50,8 +56,40 @@ const ProcessTransactions: FC<IProps> = () => {
 
     return (
         <Box>
-            <Box>
-                <Typography variant='body1'>{items[cursor].url}</Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                <Button
+                    disabled={cursor === 0}
+                    onClick={handleClickPrev}
+                    startIcon={<IconUp />}
+                    variant='outlined'
+                >
+                    Previous
+                </Button>
+            </Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    gap: 2,
+                    minHeight: '250px',
+                }}
+            >
+                {cursor > 0 ? <URLItem index={cursor - 1} /> : null}
+                <URLItem focused index={cursor} />
+                {cursor < items.length - 1 ? (
+                    <URLItem index={cursor + 1} />
+                ) : null}
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                <Button
+                    disabled={cursor === items.length - 1}
+                    onClick={handleClickNext}
+                    startIcon={<IconDown />}
+                    variant='outlined'
+                >
+                    Next (discard)
+                </Button>
             </Box>
         </Box>
     );
