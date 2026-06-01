@@ -75,10 +75,14 @@ const ProcessTransactions: FC<IProps> = () => {
                     minHeight: '250px',
                 }}
             >
+                {cursor > 1 ? <URLItem index={cursor - 2} /> : null}
                 {cursor > 0 ? <URLItem index={cursor - 1} /> : null}
                 <URLItem focused index={cursor} />
                 {cursor < items.length - 1 ? (
                     <URLItem index={cursor + 1} />
+                ) : null}
+                {cursor < items.length - 2 ? (
+                    <URLItem index={cursor + 2} />
                 ) : null}
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
