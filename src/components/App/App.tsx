@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
 
 import { Box, CssBaseline } from '@mui/material';
 
 import router from '../../constants/routerConstants';
-import AuthBoundary from '../../hocs/AuthBoundary';
-import { useAppDispatch } from '../../hooks/ReduxHookWrappers';
-import useAuthToken from '../../hooks/useAuthToken';
-import { initialAppLoad } from '../../redux/thunks/genericThunks';
+// import AuthBoundary from '../../hocs/AuthBoundary';
+// import { useAppDispatch } from '../../hooks/ReduxHookWrappers';
+// import useAuthToken from '../../hooks/useAuthToken';
+// import { initialAppLoad } from '../../redux/thunks/genericThunks';
 
 // import './App.css';
 
@@ -18,27 +18,27 @@ import { initialAppLoad } from '../../redux/thunks/genericThunks';
  * @component
  */
 const App = () => {
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
 
-    // const { t } = useTranslation();
+    // // const { t } = useTranslation();
 
-    const { conditionallyRefreshAuth } = useAuthToken();
+    // const { conditionallyRefreshAuth } = useAuthToken();
 
-    useEffect(() => {
-        conditionallyRefreshAuth(initialAppLoad(dispatch));
-        return () => {
-            dispatch({ type: 'socket/disconnect' });
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // useEffect(() => {
+    //     conditionallyRefreshAuth(initialAppLoad(dispatch));
+    //     return () => {
+    //         dispatch({ type: 'socket/disconnect' });
+    //     };
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     return (
-        <AuthBoundary>
-            <Box className='App'>
-                <CssBaseline enableColorScheme />
-                <RouterProvider router={router} />
-            </Box>
-        </AuthBoundary>
+        // <AuthBoundary>
+        <Box className='App'>
+            <CssBaseline enableColorScheme />
+            <RouterProvider router={router} />
+        </Box>
+        // {/* </AuthBoundary> */}
     );
 };
 

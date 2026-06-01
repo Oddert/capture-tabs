@@ -6,8 +6,6 @@
 import type { Socket } from '../../utils/socketManager';
 import type { Dispatch, Middleware, UnknownAction } from '@reduxjs/toolkit';
 
-import { updateFromWS } from '../thunks/instanceThunks';
-
 type TSocketMiddleware = (
     socket: Socket,
 ) => Middleware<{}, any, Dispatch<UnknownAction>>;
@@ -25,9 +23,9 @@ export const socketMiddleware: TSocketMiddleware =
                             `ws://localhost:8081/ws?token=${state.auth.accessToken}`,
                         );
                         socket.on('open', () => {});
-                        socket.on('message', (data: MessageEvent<string>) => {
-                            // @ts-expect-error Unexpected payload action
-                            params.dispatch(updateFromWS(data.data));
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        socket.on('message', (_data: MessageEvent<string>) => {
+                            // params.dispatch(updateFromWS(data.data));
                         });
                         socket.on('close', () => {});
                     }
