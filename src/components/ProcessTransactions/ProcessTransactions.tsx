@@ -16,6 +16,7 @@ import {
     getUploadItems,
 } from '../../redux/selectors/uploadSelectors';
 import { toggleEditMode } from '../../redux/slices/uploadSlice';
+import { refreshBookmarksFromLocalStore } from '../../redux/thunks/bookmarksThunks';
 import {
     actionDefaultNextItem,
     decrementCursor,
@@ -83,6 +84,10 @@ const ProcessTransactions: FC<IProps> = () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, [handleKeyDown]);
+
+    useEffect(() => {
+        dispatch(refreshBookmarksFromLocalStore());
+    }, [dispatch]);
 
     return (
         <Box>
