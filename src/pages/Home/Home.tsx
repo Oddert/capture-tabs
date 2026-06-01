@@ -1,4 +1,8 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
+
+import DropZone from '../../components/DropZone/DropZone';
+import { useAppSelector } from '../../hooks/ReduxHookWrappers';
+import { getIsUploaded } from '../../redux/selectors/uploadSelectors';
 
 /**
  * Main home page component.
@@ -9,6 +13,7 @@ import { Box, Typography } from '@mui/material';
  * @subcategory Home
  */
 const Home = () => {
+    const isLoaded = useAppSelector(getIsUploaded);
     return (
         <Box
             sx={{
@@ -20,7 +25,7 @@ const Home = () => {
                 // gridAutoRows: '400px',
             }}
         >
-            <Typography>Capture Tabs</Typography>
+            {isLoaded ? null : <DropZone />}
         </Box>
     );
 };
