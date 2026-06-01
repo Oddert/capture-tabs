@@ -1,42 +1,59 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
+
+import type { IUploadError, IUploadItem } from '../../types/Upload.types';
+
+import { parseUploadContent } from '../../utils/uploadUtils';
 
 /**
- * Redux state key for 'error'
+ * Redux state key for the upload state.
  * @category Redux
  * @subcategory Budget Slice
  */
 export interface IUploadState {
-    dialogOpen: boolean;
-    title: string;
-    message: string;
-    error: string;
-    stackTrace: string;
-    timestamp: number;
+    counts: {
+        discard: number;
+        done: number;
+        total: number;
+    };
+    errors: IUploadError[];
+    items: IUploadItem[];
+    loaded: boolean;
+    raw: string | null;
 }
 
 const initialState: IUploadState = {
-    dialogOpen: false,
-    title: '',
-    message: '',
-    error: '',
-    stackTrace: '',
-    timestamp: 0,
+    counts: {
+        discard: 0,
+        done: 0,
+        total: 0,
+    },
+    errors: [],
+    items: [],
+    loaded: false,
+    raw: null,
 };
 
-export const errorSlice = createSlice({
-    name: 'error',
+export const uploadSlice = createSlice({
+    name: 'upload',
     initialState,
     reducers: {
-        clearError(state) {
-            state.dialogOpen = false;
-            state.title = '';
-            state.message = '';
-            state.error = '';
-            state.stackTrace = '';
+        uploadContent(state, action: PayloadAction<{ content: string }>) {
+            const { errors, items } = parseUploadContent(
+                action.payload.content,
+            );
+            state.counts = {
+                discard: 0,
+                done: 0,
+                total: items.length,
+            };
+            state.errors = errors;
+            state.items = items;
+            state.loaded = true;
+            state.raw = action.payload.content;
         },
     },
 });
 
-export const { clearError } = errorSlice.actions;
+export const { uploadContent } = uploadSlice.actions;
 
-export default errorSlice.reducer;
+export default uploadSlice.reducer;
