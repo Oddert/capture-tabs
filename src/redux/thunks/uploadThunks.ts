@@ -89,7 +89,11 @@ export const actionCreateNextAction =
     };
 
 export const actionBookmark =
-    (bookmark: string | IBookmarkItem, wasAQuickdial?: boolean) =>
+    (
+        bookmark: string | IBookmarkItem,
+        nextAction?: string,
+        wasAQuickdial?: boolean,
+    ) =>
     async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
             const state = getState();
@@ -106,6 +110,7 @@ export const actionBookmark =
                         decisionType: 'bookmark',
                         index: cursor,
                         url: items[cursor].url,
+                        reason: nextAction,
                     }),
                 );
                 dispatch(pushLastBookmark({ bookmark: createdBookmarks[0] }));
@@ -118,6 +123,7 @@ export const actionBookmark =
                             decisionType: 'bookmark',
                             index: cursor,
                             url: items[cursor].url,
+                            reason: nextAction,
                         }),
                     );
                     if (!wasAQuickdial) {
@@ -141,7 +147,7 @@ export const actionBookmarkQuickDial =
 
             // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             if (foundBm) {
-                dispatch(actionBookmark(foundBm, true));
+                dispatch(actionBookmark(foundBm, undefined, true));
             }
         } catch (error) {
             dispatch(intakeError(error));

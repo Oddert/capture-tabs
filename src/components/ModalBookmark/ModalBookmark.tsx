@@ -13,6 +13,7 @@ import {
     Dialog,
     DialogContent,
     DialogTitle,
+    FormControlLabel,
     FormLabel,
     TextField,
 } from '@mui/material';
@@ -34,6 +35,7 @@ const ModalBookmark: FC<IProps> = ({ onClose, open }) => {
     const [selectedBm, setSelectedBm] = useState<IBookmarkItem | null | string>(
         null,
     );
+    const [nextAction, setNextAction] = useState<null | string>(null);
 
     const dispatch = useAppDispatch();
 
@@ -50,7 +52,12 @@ const ModalBookmark: FC<IProps> = ({ onClose, open }) => {
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
         if (selectedBm) {
-            dispatch(actionBookmark(selectedBm));
+            dispatch(
+                actionBookmark(
+                    selectedBm,
+                    nextAction?.length ? nextAction : undefined,
+                ),
+            );
         }
         handleClickCancel();
     };
@@ -106,22 +113,44 @@ const ModalBookmark: FC<IProps> = ({ onClose, open }) => {
                     ))}
                 </Box>
                 <form onSubmit={handleSubmit}>
-                    <Autocomplete
-                        freeSolo
-                        getOptionKey={(opt) =>
-                            typeof opt === 'string' ? opt : opt.id
+                    <FormControlLabel
+                        control={
+                            <Autocomplete
+                                freeSolo
+                                fullWidth
+                                getOptionKey={(opt) =>
+                                    typeof opt === 'string' ? opt : opt.id
+                                }
+                                getOptionLabel={(opt) =>
+                                    typeof opt === 'string' ? opt : opt.name
+                                }
+                                onChange={(_, value) => {
+                                    setSelectedBm(value);
+                                }}
+                                options={bookmarks}
+                                renderInput={(props) => (
+                                    <TextField autoFocus {...props} />
+                                )}
+                                value={selectedBm}
+                            />
                         }
-                        getOptionLabel={(opt) =>
-                            typeof opt === 'string' ? opt : opt.name
+                        label='Bookmark'
+                        labelPlacement='top'
+                        sx={{ width: '95%', mb: 2 }}
+                    />
+                    <FormControlLabel
+                        control={
+                            <TextField
+                                fullWidth
+                                onChange={(event) => {
+                                    setNextAction(event.target.value);
+                                }}
+                                value={nextAction}
+                            />
                         }
-                        onChange={(_, value) => {
-                            setSelectedBm(value);
-                        }}
-                        options={bookmarks}
-                        renderInput={(props) => (
-                            <TextField autoFocus {...props} />
-                        )}
-                        value={selectedBm}
+                        label='Next Action notes (optional)'
+                        labelPlacement='top'
+                        sx={{ width: '95%' }}
                     />
                     <Box
                         sx={{
