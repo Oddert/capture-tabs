@@ -20,6 +20,16 @@ export const getIsUploaded = createSelector(
 );
 
 /**
+ * Returns whether the upload state is in edit mode.
+ * @category Redux
+ * @subcategory Selectors
+ */
+export const getIsEditMode = createSelector(
+    getUploadState,
+    (upload) => upload.editMode,
+);
+
+/**
  * Returns the upload counts.
  * @category Redux
  * @subcategory Selectors

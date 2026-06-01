@@ -7,7 +7,10 @@ import UploadFileContents from '../../components/UploadFileContents';
 import UploadText from '../../components/UploadText';
 import ResponsiveContainer from '../../hocs/ResponsiveContainer';
 import { useAppSelector } from '../../hooks/ReduxHookWrappers';
-import { getIsUploaded } from '../../redux/selectors/uploadSelectors';
+import {
+    getIsEditMode,
+    getIsUploaded,
+} from '../../redux/selectors/uploadSelectors';
 
 /**
  * Main home page component.
@@ -19,19 +22,21 @@ import { getIsUploaded } from '../../redux/selectors/uploadSelectors';
  */
 const Home = () => {
     const isLoaded = useAppSelector(getIsUploaded);
+    const isEditMode = useAppSelector(getIsEditMode);
     return (
         <ResponsiveContainer>
-            {isLoaded ? (
-                <FileIndicator />
-            ) : (
-                <Fragment>
-                    <UploadFileContents />
-                    <Typography sx={{ mb: 2, textAlign: 'center' }}>
-                        Or
-                    </Typography>
-                    <UploadText />
-                </Fragment>
-            )}
+            <Fragment>
+                {isLoaded ? <FileIndicator /> : null}
+                {isEditMode || !isLoaded ? (
+                    <Fragment>
+                        <UploadFileContents />
+                        <Typography sx={{ mb: 2, textAlign: 'center' }}>
+                            Or
+                        </Typography>
+                        <UploadText />
+                    </Fragment>
+                ) : null}
+            </Fragment>
         </ResponsiveContainer>
     );
 };

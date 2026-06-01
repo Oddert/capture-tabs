@@ -17,6 +17,7 @@ export interface IUploadState {
         nextAction: number;
         total: number;
     };
+    editMode: boolean;
     errors: IUploadError[];
     items: IUploadItem[];
     loaded: boolean;
@@ -31,6 +32,7 @@ const initialState: IUploadState = {
         nextAction: 0,
         total: 0,
     },
+    editMode: false,
     errors: [],
     items: [],
     loaded: false,
@@ -41,6 +43,9 @@ export const uploadSlice = createSlice({
     name: 'upload',
     initialState,
     reducers: {
+        toggleEditMode(state, action: PayloadAction<{ editMode?: boolean }>) {
+            state.editMode = Boolean(action.payload.editMode);
+        },
         uploadContent(state, action: PayloadAction<{ content: string }>) {
             const { errors, items } = parseUploadContent(
                 action.payload.content,
@@ -52,6 +57,7 @@ export const uploadSlice = createSlice({
                 nextAction: 0,
                 total: items.length,
             };
+            state.editMode = false;
             state.errors = errors;
             state.items = items;
             state.loaded = true;
@@ -60,6 +66,6 @@ export const uploadSlice = createSlice({
     },
 });
 
-export const { uploadContent } = uploadSlice.actions;
+export const { toggleEditMode, uploadContent } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

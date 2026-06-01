@@ -16,8 +16,9 @@ import {
 
 import type { IProps } from './FileIndicator.types';
 
-import { useAppSelector } from '../../hooks/ReduxHookWrappers';
+import { useAppDispatch, useAppSelector } from '../../hooks/ReduxHookWrappers';
 import { getUploadCounts } from '../../redux/selectors/uploadSelectors';
+import { toggleEditMode } from '../../redux/slices/uploadSlice';
 
 /**
  * Displays a summary of the uploaded file, including counts of total, completed, next actions, bookmarked, and discarded items.
@@ -27,9 +28,21 @@ import { getUploadCounts } from '../../redux/selectors/uploadSelectors';
  */
 const FileIndicator: FC<IProps> = () => {
     const count = useAppSelector(getUploadCounts);
+
+    const dispatch = useAppDispatch();
+
+    const handleClickEdit = () => {
+        dispatch(toggleEditMode({ editMode: true }));
+    };
+
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button endIcon={<IconEdit />} variant='outlined'>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+            <Button
+                endIcon={<IconEdit />}
+                onClick={handleClickEdit}
+                title='click to edit URLs'
+                variant='outlined'
+            >
                 {count.total} loaded
             </Button>
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
