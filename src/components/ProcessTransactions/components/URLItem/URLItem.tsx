@@ -1,4 +1,4 @@
-import { type FC, Fragment } from 'react';
+import { type FC } from 'react';
 
 import {
     Bookmark as IconBookmark,
@@ -6,7 +6,7 @@ import {
     HighlightOff as IconDelete,
     Notes as IconNote,
 } from '@mui/icons-material';
-import { Paper, Tooltip, Typography } from '@mui/material';
+import { Box, Paper, Tooltip, Typography } from '@mui/material';
 
 import type { IProps } from './URLItem.types';
 import type { IUploadItem } from '../../../../types/Upload.types';
@@ -38,12 +38,12 @@ const getStatusBadge = (
         case 'export':
             return (
                 <Tooltip title={'next action created'}>
-                    <Fragment>
+                    <Box>
                         <IconDone color='success' sx={{ ml: 0.5 }} />
                         {reason?.length ? (
                             <IconNote color='info' sx={{ ml: 0.5 }} />
                         ) : null}
-                    </Fragment>
+                    </Box>
                 </Tooltip>
             );
         default:
