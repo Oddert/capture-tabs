@@ -33,7 +33,12 @@ const ModalNextActionText: FC<IProps> = ({ onClose, open }) => {
     };
 
     return (
-        <Dialog fullWidth maxWidth='lg' open={Boolean(open)}>
+        <Dialog
+            fullWidth
+            maxWidth='lg'
+            onClose={handleClickCancel}
+            open={Boolean(open)}
+        >
             <DialogTitle>Next Action note</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit}>
