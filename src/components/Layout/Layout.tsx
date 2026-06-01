@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { FC } from 'react';
 
 import { Box } from '@mui/material';
