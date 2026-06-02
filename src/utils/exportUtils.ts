@@ -18,9 +18,23 @@ export const downloadCsv = (fileData: string, fileName?: string) => {
 };
 
 export const convertToCSVAndDownload = (items: IUploadItem[]) => {
-    const converted = json2csv(items);
-    downloadCsv(
-        converted,
-        `capture-tabs-${new Date().toLocaleString('en-GB')}`,
+    const { bookmark, nextAction } = items.reduce(
+        (acc: { bookmark: IUploadItem[]; nextAction: IUploadItem[] }, each) => {
+            if (each.bookmark) {
+                acc.bookmark.push(each);
+            } else if (each.reason) {
+                acc.nextAction.push(each);
+            }
+            return acc;
+        },
+        { bookmark: [], nextAction: [] },
     );
+    const bookmarkSorted = bookmark.sort((a, b) =>
+        (a.bookmark?.name ?? '').localeCompare(b.bookmark?.name ?? ''),
+    );
+    const bookmarkSortedConverted = json2csv(bookmarkSorted);
+    const nextActionConverted = json2csv(nextAction);
+    const date = new Date().toLocaleString('en-GB');
+    downloadCsv(bookmarkSortedConverted, `capture-tabs-bookmark-${date}`);
+    downloadCsv(nextActionConverted, `capture-tabs-next-actions-${date}`);
 };
