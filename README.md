@@ -31,3 +31,8 @@ We are using a keyboard-first interface to build this app, creating effectively 
 The main navigation will use the arrow keys to quickly tab through the list of URL's building momentum and avoiding too much overthinking about their contents; capturing means deciding how something should be dealt with, not necessarily doing it now.
 
 Actions for each URL will be triggered by keys such as "o" to open a URL in a new tab, or "b" to bookmark it. A CLI like input box at the bottom will also allow some commands to be triggered by the user without using the mouse.
+
+## TODOs
+- [ ] Add menus to the icons on each entry
+- [ ] Investigate implementing a link preview
+- [ ] Add a review mode
