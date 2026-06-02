@@ -15,7 +15,10 @@ import {
     getUploadCursor,
     getUploadItems,
 } from '../../redux/selectors/uploadSelectors';
-import { toggleEditMode } from '../../redux/slices/uploadSlice';
+import {
+    toggleEditMode,
+    toggleReviewMode,
+} from '../../redux/slices/uploadSlice';
 import { refreshBookmarksFromLocalStore } from '../../redux/thunks/bookmarksThunks';
 import {
     actionDefaultNextItem,
@@ -25,6 +28,7 @@ import {
 import { convertToCSVAndDownload } from '../../utils/exportUtils';
 import ModalBookmark from '../ModalBookmark';
 import ModalNextActionText from '../ModalNextActionText';
+import ModalReview from '../ModalReview';
 
 import URLItem from './components/URLItem/URLItem';
 
@@ -41,7 +45,9 @@ const ProcessTransactions: FC<IProps> = () => {
         dispatch(previewLinkNewTab());
     }, [dispatch]);
 
-    const handleClickReview = () => {};
+    const handleClickReview = useCallback(() => {
+        dispatch(toggleReviewMode({ reviewMode: true }));
+    }, [dispatch]);
 
     const handleClickClear = () => {};
 
@@ -86,6 +92,9 @@ const ProcessTransactions: FC<IProps> = () => {
             } else if (event.key === 'o') {
                 event.preventDefault();
                 handleClickOpen();
+            } else if (event.key === 'r') {
+                event.preventDefault();
+                handleClickReview();
             } else if (event.key === 's') {
                 event.preventDefault();
                 handleClickSave();
@@ -97,6 +106,7 @@ const ProcessTransactions: FC<IProps> = () => {
             handleClickNext,
             handleClickOpen,
             handleClickPrev,
+            handleClickReview,
             handleClickSave,
             nextActionOpen,
         ],
@@ -204,7 +214,7 @@ const ProcessTransactions: FC<IProps> = () => {
                 <Button onClick={handleClickOpen} variant='outlined'>
                     (O) Open
                 </Button>
-                <Button disabled onClick={handleClickReview} variant='outlined'>
+                <Button onClick={handleClickReview} variant='outlined'>
                     (R) Review
                 </Button>
                 <Button disabled onClick={handleClickClear} variant='outlined'>
@@ -229,6 +239,7 @@ const ProcessTransactions: FC<IProps> = () => {
                 }}
                 open={bookmarkOpen}
             />
+            <ModalReview />
         </Box>
     );
 };
