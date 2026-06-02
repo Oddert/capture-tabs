@@ -24,12 +24,7 @@ const placeholderPermOpen = false;
  * @param props.onClose Callback function invoked when the component requests to close.
  * @param props.open If true, the drawer is open.
  */
-const SidebarStatic: FC<IProps> = ({
-    onClose = () => {},
-    onOpen = () => {},
-    onToggle = () => {},
-    open = false,
-}) => {
+const SidebarStatic: FC<IProps> = ({ onClose, onOpen, onToggle, open }) => {
     const theme = useTheme();
 
     return (

@@ -29,7 +29,7 @@ export const parseUploadContent = (content: string) => {
                     acc.errors.push({
                         error: (error as Error).message,
                         original: line,
-                    } as IUploadError);
+                    });
                 }
                 return acc;
             },

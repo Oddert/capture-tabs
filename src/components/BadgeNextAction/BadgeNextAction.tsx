@@ -1,4 +1,10 @@
-import { type FC, type FormEvent, Fragment, useEffect, useState } from 'react';
+import {
+    type FC,
+    Fragment,
+    type SubmitEvent,
+    useEffect,
+    useState,
+} from 'react';
 
 import { Notes as IconNote } from '@mui/icons-material';
 import { Button, FormControlLabel, Popover, TextField } from '@mui/material';
@@ -17,7 +23,7 @@ const BadgeNextAction: FC<IProps> = ({ item }) => {
         setAnchorEl(null);
     };
 
-    const handleSubmit = (event: FormEvent) => {
+    const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
     };
 

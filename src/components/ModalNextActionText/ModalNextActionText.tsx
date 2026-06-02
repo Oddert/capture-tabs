@@ -1,4 +1,4 @@
-import { type FC, type FormEvent, useState } from 'react';
+import { type FC, type SubmitEvent, useState } from 'react';
 
 import {
     Box,
@@ -26,7 +26,7 @@ const ModalNextActionText: FC<IProps> = ({ onClose, open }) => {
         }
     };
 
-    const handleSubmit = (event: FormEvent) => {
+    const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
         dispatch(actionCreateNextAction(text.length ? text : undefined));
         handleClickCancel();

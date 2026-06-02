@@ -1,4 +1,4 @@
-import { type FC, type FormEvent, Fragment, useState } from 'react';
+import { type FC, Fragment, type SubmitEvent, useState } from 'react';
 
 import {
     Autocomplete,
@@ -38,7 +38,7 @@ const Signup: FC<IProps> = ({ setIsSignup }) => {
 
     const loading = useAppSelector(getAccessTokenPending);
 
-    const handleSubmit = (event: FormEvent<LoginFormContent>) => {
+    const handleSubmit = (event: SubmitEvent<LoginFormContent>) => {
         event.preventDefault();
         dispatch(
             registerUser(

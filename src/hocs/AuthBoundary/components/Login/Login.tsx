@@ -1,4 +1,4 @@
-import { type FC, type FormEvent, Fragment } from 'react';
+import { type FC, Fragment, type SubmitEvent } from 'react';
 
 import {
     Box,
@@ -32,7 +32,7 @@ const Login: FC<IProps> = ({ setIsSignup }) => {
 
     const loading = useAppSelector(getAccessTokenPending);
 
-    const handleSubmit = (event: FormEvent<LoginFormContent>) => {
+    const handleSubmit = (event: SubmitEvent<LoginFormContent>) => {
         event.preventDefault();
         dispatch(
             loginUser(

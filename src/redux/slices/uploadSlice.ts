@@ -23,6 +23,7 @@ export interface IUploadState {
     items: IUploadItem[];
     loaded: boolean;
     raw: string | null;
+    reviewMode: boolean;
 }
 
 const initialState: IUploadState = {
@@ -39,6 +40,7 @@ const initialState: IUploadState = {
     items: [],
     loaded: false,
     raw: null,
+    reviewMode: false,
 };
 
 export const uploadSlice = createSlice({
@@ -107,6 +109,12 @@ export const uploadSlice = createSlice({
         toggleEditMode(state, action: PayloadAction<{ editMode?: boolean }>) {
             state.editMode = Boolean(action.payload.editMode);
         },
+        toggleReviewMode(
+            state,
+            action: PayloadAction<{ reviewMode?: boolean }>,
+        ) {
+            state.reviewMode = Boolean(action.payload.reviewMode);
+        },
         uploadContent(state, action: PayloadAction<{ content: string }>) {
             const { errors, items } = parseUploadContent(
                 action.payload.content,
@@ -127,7 +135,12 @@ export const uploadSlice = createSlice({
     },
 });
 
-export const { actionItem, setCursor, toggleEditMode, uploadContent } =
-    uploadSlice.actions;
+export const {
+    actionItem,
+    setCursor,
+    toggleEditMode,
+    toggleReviewMode,
+    uploadContent,
+} = uploadSlice.actions;
 
 export default uploadSlice.reducer;

@@ -25,11 +25,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
  * @param props.onOpen Callback function invoked if the component requests to open.
  * @param props.open If true, the drawer is open.
  */
-const SidebarDiscreet: FC<IProps> = ({
-    onClose = () => {},
-    onOpen = () => {},
-    open = false,
-}) => {
+const SidebarDiscreet: FC<IProps> = ({ onClose, onOpen, open }) => {
     const theme = useTheme();
     return (
         <Drawer onClose={onClose} open={open} variant='persistent'>

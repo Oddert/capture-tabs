@@ -30,6 +30,16 @@ export const getIsEditMode = createSelector(
 );
 
 /**
+ * Returns whether the upload state is in review mode.
+ * @category Redux
+ * @subcategory Selectors
+ */
+export const getIsReviewMode = createSelector(
+    getUploadState,
+    (upload) => upload.reviewMode,
+);
+
+/**
  * Returns the upload counts.
  * @category Redux
  * @subcategory Selectors

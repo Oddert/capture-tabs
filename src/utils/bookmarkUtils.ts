@@ -8,7 +8,7 @@ export const createAndStoreBookmarks = (
 ): [IBookmarkItem[], IBookmarkItem[]] => {
     const createdBookmarks = newBookmarks.map((bookmark) => ({
         name: bookmark,
-        id: String(uuid()),
+        id: uuid(),
     }));
     const nextBookmarks: IBookmarkItem[] = [
         ...prevBookmarks,

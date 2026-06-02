@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import axios from 'axios';
+import { create as axiosCreate } from 'axios';
 
 import store from '../redux/constants/store';
 import { refreshAuthentication } from '../redux/thunks/authThunks';
@@ -19,7 +19,7 @@ export const createBlankRequest = () => {
      *
      * NOTE: Interceptors used will attempt to return `response.data`, not `AxiosResponse<any, any>>` as suggested.
      */
-    const requestClient = axios.create({
+    const requestClient = axiosCreate({
         baseURL,
         headers: {
             'Content-Type': 'application/json',
