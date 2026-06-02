@@ -1,12 +1,23 @@
-import { type FC, useMemo } from 'react';
+import { type FC, useMemo, useState } from 'react';
 
+import { OpenInNew as IconExternalLink } from '@mui/icons-material';
 import {
-    Box,
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Checkbox,
     Dialog,
     DialogContent,
     DialogTitle,
     List,
     ListItem,
+    ListItemButton,
+    ListItemText,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
 } from '@mui/material';
 
 import type { IProps } from './ModalReview.types';
@@ -20,6 +31,8 @@ import {
 import { toggleReviewMode } from '../../redux/slices/uploadSlice';
 
 const ModalReview: FC<IProps> = () => {
+    const [clicked, setClicked] = useState<Record<string, boolean>>({});
+
     const open = useAppSelector(getIsReviewMode);
     const items = useAppSelector(getUploadItems);
 
@@ -28,6 +41,13 @@ const ModalReview: FC<IProps> = () => {
     const handleClose = () => {
         dispatch(toggleReviewMode({ reviewMode: false }));
     };
+
+    const handleClickLink = (url: string) => () => {
+        console.log('click');
+        setClicked((state) => ({ ...state, [url]: true }));
+    };
+
+    console.log('clicked', clicked);
 
     const {
         bookmark,
@@ -53,18 +73,105 @@ const ModalReview: FC<IProps> = () => {
         <Dialog fullWidth maxWidth='xl' onClose={handleClose} open={open}>
             <DialogTitle></DialogTitle>
             <DialogContent>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                    <List>
-                        {bookmark.map((item, idx) => (
-                            <ListItem key={idx}>{item.url}</ListItem>
-                        ))}
-                    </List>
-                    <List>
-                        {nextAction.map((item, idx) => (
-                            <ListItem key={idx}>{item.url}</ListItem>
-                        ))}
-                    </List>
-                </Box>
+                <Accordion defaultExpanded={bookmark.length > 0}>
+                    <AccordionSummary>
+                        To bookmark: {bookmark.length}
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Table size='small'>
+                            <TableHead>
+                                <TableCell>Opened</TableCell>
+                                <TableCell>URL</TableCell>
+                                <TableCell>Action</TableCell>
+                            </TableHead>
+                            <TableBody>
+                                {bookmark.map((item, idx) => {
+                                    return (
+                                        <TableRow key={idx}>
+                                            <TableCell>
+                                                <Checkbox
+                                                    checked={clicked[item.url]}
+                                                    onChange={() => {}}
+                                                />
+                                            </TableCell>
+                                            <TableCell
+                                                onClick={handleClickLink(
+                                                    item.url,
+                                                )}
+                                            >
+                                                <ListItemButton
+                                                    href={item.url}
+                                                    target='_blank'
+                                                    sx={{
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow:
+                                                            'ellipsis',
+                                                    }}
+                                                >
+                                                    {item.url}{' '}
+                                                    <IconExternalLink
+                                                        sx={{
+                                                            fontSize: '16px',
+                                                            ml: '8px',
+                                                        }}
+                                                    />
+                                                </ListItemButton>
+                                            </TableCell>
+                                            <TableCell>{item.reason}</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion defaultExpanded={nextAction.length > 0}>
+                    <AccordionSummary>
+                        Next Actions: {nextAction.length}
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Table size='small'>
+                            <TableHead>
+                                <TableCell>URL</TableCell>
+                                <TableCell>Action</TableCell>
+                            </TableHead>
+                            <TableBody>
+                                {nextAction.map((item, idx) => {
+                                    return (
+                                        <TableRow key={idx}>
+                                            <TableCell
+                                                onClick={handleClickLink(
+                                                    item.url,
+                                                )}
+                                            >
+                                                <ListItemButton
+                                                    href={item.url}
+                                                    target='_blank'
+                                                    sx={{
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow:
+                                                            'ellipsis',
+                                                    }}
+                                                >
+                                                    {item.url}{' '}
+                                                    <IconExternalLink
+                                                        sx={{
+                                                            fontSize: '16px',
+                                                            ml: '8px',
+                                                        }}
+                                                    />
+                                                </ListItemButton>
+                                            </TableCell>
+                                            <TableCell>{item.reason}</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </AccordionDetails>
+                </Accordion>
             </DialogContent>
         </Dialog>
     );
