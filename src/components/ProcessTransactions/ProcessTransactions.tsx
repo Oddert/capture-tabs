@@ -115,7 +115,13 @@ const ProcessTransactions: FC<IProps> = () => {
 
     return (
         <Box>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    mb: 2,
+                }}
+            >
                 <Button
                     disabled={cursor === 0}
                     onClick={handleClickPrev}
@@ -125,7 +131,13 @@ const ProcessTransactions: FC<IProps> = () => {
                     Previous
                 </Button>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '16px',
+                }}
+            >
                 <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
                     <Button
                         onClick={() => {
@@ -139,6 +151,7 @@ const ProcessTransactions: FC<IProps> = () => {
                 </Box>
                 <Box
                     sx={{
+                        flex: 1,
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'center',
@@ -168,7 +181,7 @@ const ProcessTransactions: FC<IProps> = () => {
                     </Button>
                 </Box>
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
                 <Button
                     disabled={cursor === items.length - 1}
                     onClick={handleClickNext}
