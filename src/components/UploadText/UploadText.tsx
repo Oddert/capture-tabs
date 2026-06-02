@@ -52,7 +52,7 @@ const UploadText: FC<IProps> = () => {
                 }
                 label={'Enter URLs manually'}
                 labelPlacement='top'
-                sx={{ width: '100%' }}
+                sx={{ width: '100%', mx: 0 }}
             />
             <Box
                 sx={{
