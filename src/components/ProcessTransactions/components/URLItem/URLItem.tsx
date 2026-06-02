@@ -32,7 +32,12 @@ const getStatusBadge = (
         case 'bookmark':
             return (
                 <Tooltip title={'bookmarked'}>
-                    <IconBookmark color='primary' sx={{ ml: 0.5 }} />
+                    <Box>
+                        <IconBookmark color='primary' sx={{ ml: 0.5 }} />
+                        {reason?.length ? (
+                            <IconNote color='info' sx={{ ml: 0.5 }} />
+                        ) : null}
+                    </Box>
                 </Tooltip>
             );
         case 'export':
@@ -59,6 +64,8 @@ const getStatusBadge = (
  */
 const URLItem: FC<IProps> = ({ focused, index }) => {
     const items = useAppSelector(getUploadItems);
+    const item = items[index];
+
     return (
         <Paper
             elevation={1}
@@ -69,7 +76,7 @@ const URLItem: FC<IProps> = ({ focused, index }) => {
                 opacity: focused ? 1 : 0.5,
             }}
         >
-            {getStatusBadge(items[index].decisionType, items[index].reason)}
+            {getStatusBadge(item.decisionType, item.reason)}
             <Typography
                 sx={{
                     ml: 2,
@@ -78,7 +85,7 @@ const URLItem: FC<IProps> = ({ focused, index }) => {
                 }}
                 variant='body1'
             >
-                {items[index].url}
+                {item.url}
             </Typography>
         </Paper>
     );
