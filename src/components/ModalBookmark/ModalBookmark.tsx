@@ -44,6 +44,7 @@ const ModalBookmark: FC<IProps> = ({ onClose, open }) => {
 
     const handleClickCancel = () => {
         setSelectedBm(null);
+        setNextAction(null);
         if (onClose) {
             onClose();
         }
@@ -116,6 +117,7 @@ const ModalBookmark: FC<IProps> = ({ onClose, open }) => {
                     <FormControlLabel
                         control={
                             <Autocomplete
+                                autoSelect
                                 freeSolo
                                 fullWidth
                                 getOptionKey={(opt) =>
