@@ -35,6 +35,8 @@ import {
 } from '../../redux/selectors/uploadSelectors';
 import { toggleReviewMode } from '../../redux/slices/uploadSlice';
 
+import AllItems from './AllItems/AllItems';
+
 interface TabPanelProps {
     children?: ReactNode;
     index: number;
@@ -229,54 +231,7 @@ const ModalReview: FC<IProps> = () => {
                     </Accordion>
                 </CustomTabPanel>
                 <CustomTabPanel value={tab} index={1}>
-                    <Table size='small'>
-                        <TableHead>
-                            <TableCell>URL</TableCell>
-                            <TableCell>Bookmark</TableCell>
-                            <TableCell>Next Action</TableCell>
-                        </TableHead>
-                        <TableBody>
-                            {items.map((item, idx) => {
-                                return (
-                                    <TableRow key={idx}>
-                                        <TableCell
-                                            onClick={handleClickLink(item.url)}
-                                        >
-                                            <ListItemButton
-                                                href={item.url}
-                                                target='_blank'
-                                                sx={{
-                                                    whiteSpace: 'nowrap',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
-                                                }}
-                                            >
-                                                {item.url}{' '}
-                                                <IconExternalLink
-                                                    sx={{
-                                                        fontSize: '16px',
-                                                        ml: '8px',
-                                                    }}
-                                                />
-                                            </ListItemButton>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Checkbox
-                                                checked={Boolean(item.bookmark)}
-                                                onChange={() => {}}
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Checkbox
-                                                checked={Boolean(item.reason)}
-                                                onChange={() => {}}
-                                            />
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
+                    <AllItems />
                 </CustomTabPanel>
             </DialogContent>
         </Dialog>
