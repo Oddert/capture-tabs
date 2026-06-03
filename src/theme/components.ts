@@ -8,6 +8,13 @@ const components: Partial<Theme['components']> = {
             },
         },
     },
+    MuiTab: {
+        styleOverrides: {
+            root: {
+                textTransform: 'none',
+            },
+        },
+    },
     MuiFormControlLabel: {
         defaultProps: {
             slotProps: {
