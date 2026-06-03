@@ -108,12 +108,25 @@ const ModalReview: FC<IProps> = () => {
     }, [items]);
 
     return (
-        <Dialog fullWidth maxWidth='xl' onClose={handleClose} open={open}>
+        <Dialog
+            fullWidth
+            maxWidth='xl'
+            onClose={handleClose}
+            open={open}
+            slotProps={{
+                container: {
+                    sx: {
+                        alignItems: 'flex-start',
+                    },
+                },
+            }}
+        >
             <DialogTitle></DialogTitle>
             <DialogContent>
                 <Tabs
                     aria-label='choose what to review'
                     onChange={handleChangeTab}
+                    sx={{ mb: 2 }}
                     value={tab}
                 >
                     <Tab label='Actioned items' {...a11yProps(0)} />
