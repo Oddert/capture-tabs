@@ -132,6 +132,43 @@ export const uploadSlice = createSlice({
             state.loaded = true;
             state.raw = action.payload.content;
         },
+        writeActionsFromRecovery(
+            state,
+            { payload }: PayloadAction<{ items: IUploadItem[] }>,
+        ) {
+            state.items = payload.items;
+            state.raw = payload.items.map((item) => item.url).join(' \n');
+            state.editMode = false;
+            state.loaded = true;
+            state.counts = payload.items.reduce(
+                (acc: IUploadState['counts'], each) => {
+                    switch (each.decisionType) {
+                        case 'bookmark':
+                            acc.bookmark++;
+                            acc.done++;
+                            break;
+                        case 'discard':
+                            acc.discard++;
+                            acc.done++;
+                            break;
+                        case 'export':
+                            acc.nextAction++;
+                            acc.done++;
+                            break;
+                        default:
+                            break;
+                    }
+                    return acc;
+                },
+                {
+                    bookmark: 0,
+                    discard: 0,
+                    done: 0,
+                    nextAction: 0,
+                    total: payload.items.length,
+                },
+            );
+        },
     },
 });
 
@@ -141,6 +178,7 @@ export const {
     toggleEditMode,
     toggleReviewMode,
     uploadContent,
+    writeActionsFromRecovery,
 } = uploadSlice.actions;
 
 export default uploadSlice.reducer;
