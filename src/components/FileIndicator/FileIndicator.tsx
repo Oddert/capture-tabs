@@ -95,7 +95,7 @@ const FileIndicator: FC<IProps> = () => {
                 </Box>
             </Box>
             <Typography>
-                {cursor} of {count.total}
+                {cursor + 1} of {count.total}
             </Typography>
         </Fragment>
     );
