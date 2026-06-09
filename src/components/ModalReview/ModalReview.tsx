@@ -1,5 +1,6 @@
 import {
     type FC,
+    Fragment,
     type ReactNode,
     type SyntheticEvent,
     useMemo,
@@ -93,7 +94,10 @@ const ModalReview: FC<IProps> = () => {
     }: { bookmark: IUploadItem[]; nextAction: IUploadItem[] } = useMemo(() => {
         return items.reduce(
             (
-                acc: { bookmark: IUploadItem[]; nextAction: IUploadItem[] },
+                acc: {
+                    bookmark: IUploadItem[];
+                    nextAction: IUploadItem[];
+                },
                 each,
             ) => {
                 if (each.bookmark) {
@@ -106,6 +110,29 @@ const ModalReview: FC<IProps> = () => {
             { bookmark: [], nextAction: [] },
         );
     }, [items]);
+
+    const bookmarksGrouped = useMemo(() => {
+        const bmSortedByBmName = bookmark.reduce(
+            (acc: Record<string, IUploadItem[]>, each) => {
+                const bookmarkName = each.bookmark?.name ?? 'default';
+                if (!(bookmarkName in acc)) {
+                    acc[bookmarkName] = [];
+                }
+                acc[bookmarkName].push(each);
+                return acc;
+            },
+            {},
+        );
+
+        return Object.entries(bmSortedByBmName).sort((a, b) =>
+            a[0].localeCompare(b[0]),
+        );
+    }, [bookmark]);
+
+    // open multiple tabs in one go
+    // recovery state
+    // fix bug going past last item
+    // review bookmark logic
 
     return (
         <Dialog
@@ -141,53 +168,89 @@ const ModalReview: FC<IProps> = () => {
                             <Table size='small'>
                                 <TableHead>
                                     <TableCell>Opened</TableCell>
+                                    <TableCell>Bookmark</TableCell>
                                     <TableCell>URL</TableCell>
                                     <TableCell>Action</TableCell>
                                 </TableHead>
                                 <TableBody>
-                                    {bookmark.map((item, idx) => {
-                                        return (
-                                            <TableRow key={idx}>
-                                                <TableCell>
-                                                    <Checkbox
-                                                        checked={
-                                                            clicked[item.url]
-                                                        }
-                                                        onChange={() => {}}
-                                                    />
-                                                </TableCell>
-                                                <TableCell
-                                                    onClick={handleClickLink(
-                                                        item.url,
+                                    {bookmarksGrouped.map(
+                                        (
+                                            [bmName, bookmarkedItems],
+                                            groupIdx,
+                                        ) => {
+                                            return (
+                                                <Fragment key={groupIdx}>
+                                                    <TableRow>
+                                                        <TableCell colSpan={3}>
+                                                            {bmName}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    {bookmarkedItems.map(
+                                                        (item, itemIdx) => (
+                                                            <TableRow
+                                                                key={itemIdx}
+                                                            >
+                                                                <TableCell>
+                                                                    <Checkbox
+                                                                        checked={
+                                                                            clicked[
+                                                                                item
+                                                                                    .url
+                                                                            ]
+                                                                        }
+                                                                        onChange={() => {}}
+                                                                    />
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    {
+                                                                        item
+                                                                            .bookmark
+                                                                            ?.name
+                                                                    }
+                                                                </TableCell>
+                                                                <TableCell
+                                                                    onClick={handleClickLink(
+                                                                        item.url,
+                                                                    )}
+                                                                >
+                                                                    <ListItemButton
+                                                                        href={
+                                                                            item.url
+                                                                        }
+                                                                        target='_blank'
+                                                                        sx={{
+                                                                            whiteSpace:
+                                                                                'nowrap',
+                                                                            overflow:
+                                                                                'hidden',
+                                                                            textOverflow:
+                                                                                'ellipsis',
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            item.url
+                                                                        }{' '}
+                                                                        <IconExternalLink
+                                                                            sx={{
+                                                                                fontSize:
+                                                                                    '16px',
+                                                                                ml: '8px',
+                                                                            }}
+                                                                        />
+                                                                    </ListItemButton>
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    {
+                                                                        item.reason
+                                                                    }
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        ),
                                                     )}
-                                                >
-                                                    <ListItemButton
-                                                        href={item.url}
-                                                        target='_blank'
-                                                        sx={{
-                                                            whiteSpace:
-                                                                'nowrap',
-                                                            overflow: 'hidden',
-                                                            textOverflow:
-                                                                'ellipsis',
-                                                        }}
-                                                    >
-                                                        {item.url}{' '}
-                                                        <IconExternalLink
-                                                            sx={{
-                                                                fontSize:
-                                                                    '16px',
-                                                                ml: '8px',
-                                                            }}
-                                                        />
-                                                    </ListItemButton>
-                                                </TableCell>
-                                                <TableCell>
-                                                    {item.reason}
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
+                                                </Fragment>
+                                            );
+                                        },
+                                    )}
                                 </TableBody>
                             </Table>
                         </AccordionDetails>
