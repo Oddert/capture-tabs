@@ -36,5 +36,5 @@ export const getBookmarksList = createSelector(
  */
 export const getBookmarksRecent = createSelector(
     getBookmarkState,
-    (bookmarks) => bookmarks.recent,
+    (bookmarks) => bookmarks.bookmarks.slice(0, 9),
 );

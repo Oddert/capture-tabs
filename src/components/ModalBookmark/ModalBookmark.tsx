@@ -1,6 +1,6 @@
 import {
     type FC,
-    type SubmitEvent,
+    type FormEventHandler,
     useCallback,
     useEffect,
     useState,
@@ -50,7 +50,7 @@ const ModalBookmark: FC<IProps> = ({ onClose, open }) => {
         }
     };
 
-    const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault();
         if (selectedBm) {
             dispatch(
