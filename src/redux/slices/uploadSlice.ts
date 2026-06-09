@@ -96,7 +96,11 @@ export const uploadSlice = createSlice({
                 state.items[payload.index].reason = payload.reason;
             }
             state.items[payload.index].decisionType = payload.decisionType;
-            state.cursor = state.cursor + 1;
+            if (state.cursor === state.items.length - 1) {
+                state.reviewMode = true;
+            } else {
+                state.cursor = state.cursor + 1;
+            }
         },
         setCursor(state, action: PayloadAction<{ cursor: number }>) {
             if (

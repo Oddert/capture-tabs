@@ -4,7 +4,7 @@ import type { AppDispatch, RootState } from '../constants/store';
 import { createAndStoreBookmarks } from '../../utils/bookmarkUtils';
 import { openLinkInNewTab } from '../../utils/uploadUtils';
 import { loadBookmarks } from '../slices/bookmarksSlice';
-import { actionItem, setCursor } from '../slices/uploadSlice';
+import { actionItem, setCursor, toggleReviewMode } from '../slices/uploadSlice';
 
 import { intakeError } from './errorThunks';
 
@@ -15,7 +15,9 @@ export const decrementCursor =
     () => async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
             const { cursor } = getState().upload;
-            dispatch(setCursor({ cursor: cursor - 1 }));
+            if (cursor > 0) {
+                dispatch(setCursor({ cursor: cursor - 1 }));
+            }
         } catch (error) {
             dispatch(intakeError(error));
         }
@@ -27,8 +29,12 @@ export const decrementCursor =
 export const incrementCursor =
     () => async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            const { cursor } = getState().upload;
-            dispatch(setCursor({ cursor: cursor + 1 }));
+            const { cursor, items } = getState().upload;
+            if (cursor === items.length - 1) {
+                dispatch(toggleReviewMode({ reviewMode: true }));
+            } else {
+                dispatch(setCursor({ cursor: cursor + 1 }));
+            }
         } catch (error) {
             dispatch(intakeError(error));
         }
